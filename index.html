@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#064c3b">
+  <title>Waste2Power — Smart Waste & Energy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="login-screen" id="loginScreen" hidden>
+  <form class="login-card" id="loginForm" autocomplete="off">
+    <div class="login-mark">ϟ</div>
+    <h2>Welcome to Waste<span>2</span>Power</h2>
+    <p>Enter your name to start. Your dashboard and waste log will be saved under your name on this device.</p>
+    <label for="loginName">Your name</label>
+    <input id="loginName" type="text" minlength="2" maxlength="30" required placeholder="e.g. Aman Sharma">
+    <small class="login-error" id="loginError" role="alert"></small>
+    <button class="btn btn-primary wide-btn" type="submit">Continue <span>→</span></button>
+    <small class="login-note">Demo sign-in: there is no password and no server. Anyone using this browser can switch to any name.</small>
+  </form>
+</div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#" data-page="dashboard" aria-label="Waste2Power home">
+      <span class="brand-mark">ϟ</span>
+      <span><b>Waste<span class="brand-2">2</span>Power</b><small>Less Waste. More Energy.</small></span>
+    </a>
+    <nav class="nav-list" aria-label="Main navigation">
+      <button class="nav-link active" data-page="dashboard"><span>⌂</span> Dashboard</button>
+      <button class="nav-link" data-page="scan"><span>▣</span> Scan Waste</button>
+      <button class="nav-link" data-page="waste"><span>♻</span> My Waste</button>
+      <button class="nav-link" data-page="impact"><span>ϟ</span> Energy & Impact</button>
+      <button class="nav-link" data-page="route"><span>⌁</span> Collection Route</button>
+      <button class="nav-link" data-page="marketplace"><span>♧</span> Seller Marketplace</button>
+      <button class="nav-link" data-page="ewaste"><span>▣</span> E-Waste Guide</button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="earth-art">🌍</div>
+      <p>Small actions<br>make a big impact.</p>
+      <span class="demo-pill">DEMO PROTOTYPE</span>
+      <button class="logout-btn" id="logoutBtn" type="button" hidden>Log out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰</button>
+      <div>
+        <h1 id="pageTitle">Hello 👋</h1>
+        <p id="pageSubtitle">Let's turn waste into a better tomorrow.</p>
+      </div>
+      <div class="campus-chip"><span class="pin">●</span><span><b>Campus Green Hub</b><small>Waste & energy workspace</small></span></div>
+      <div class="avatar" id="userAvatar" title="Profile">?</div>
+    </header>
+
+    <section class="page active-page" id="page-dashboard">
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">SMART WASTE • SMARTER FUTURE</span>
+          <h2>Track your waste.<br>Unlock its <em>energy.</em></h2>
+          <p>One simple place to classify waste, explore responsible disposal options, and estimate environmental impact.</p>
+          <p class="impact-line" id="impactLine"></p>
+          <button class="btn btn-lime" data-go="scan">Scan waste <span>→</span></button>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="globe">🌎</div><span class="leaf leaf-a">🌿</span><span class="leaf leaf-b">🍃</span>
+          <div class="hero-sticker">REDUCE<br>REUSE<br>RECYCLE</div>
+        </div>
+      </section>
+
+      <div class="stat-grid">
+        <article class="stat-card"><div class="stat-icon icon-green">♻</div><div><span>Total waste logged</span><strong id="statWaste">12.5 kg</strong><small class="positive">Your tracked materials</small></div></article>
+        <article class="stat-card"><div class="stat-icon icon-yellow">ϟ</div><div><span>Estimated energy potential</span><strong id="statEnergy">8.4 kWh</strong><small class="positive">Indicative estimate</small></div></article>
+        <article class="stat-card"><div class="stat-icon icon-mint">₹</div><div><span>Potential value</span><strong id="statValue">₹ 320</strong><small class="positive">Illustrative estimate</small></div></article>
+        <article class="stat-card"><div class="stat-icon icon-leaf">❧</div><div><span>Waste entries</span><strong id="statEntries">4</strong><small class="positive">Items recorded</small></div></article>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="panel composition-panel">
+          <div class="panel-heading"><div><h3>Waste composition</h3><p>Based on your logged items</p></div><span class="tiny-tag">LIVE DEMO</span></div>
+          <div class="composition-content"><div class="donut" id="donut"><div><b id="donutTotal">12.5</b><small>kg total</small></div></div><div class="legend" id="legend"></div></div>
+        </article>
+        <article class="panel recommendation-panel">
+          <div class="panel-heading"><div class="bulb">✦</div><div><h3>Smart recommendation</h3><p>Practical next step</p></div></div>
+          <h4 id="recommendationTitle">Keep food waste separate</h4>
+          <p id="recommendationText">Clean organic waste may be suitable for composting or a local biogas programme. Check local facilities before disposal.</p>
+          <button class="btn btn-dark" data-go="ewaste">Explore disposal guide <span>→</span></button>
+        </article>
+        <article class="panel activity-panel">
+          <div class="panel-heading"><div><h3>Recent activity</h3><p>Latest waste entries</p></div><button class="text-btn" data-go="waste">View all →</button></div>
+          <div id="recentActivity" class="activity-list"></div>
+        </article>
+      </div>
+      <p class="disclaimer">Prototype note: dashboard starts with sample data. Energy and value figures are illustrative estimates, not measured or verified outcomes.</p>
+    </section>
+
+    <section class="page" id="page-scan">
+      <div class="section-intro"><span class="eyebrow green-text">WASTE IDENTIFICATION</span><h2>Scan your waste</h2><p>Upload a photo, select the closest category, and save the entry to your dashboard.</p></div>
+      <div class="scan-layout">
+        <article class="panel upload-panel">
+          <div class="upload-drop" id="dropZone">
+            <div class="upload-symbol">↑</div><h3>Upload a waste photo</h3><p>Choose an image, take a photo, or drag and drop one here. JPG, PNG, or WEBP.</p>
+            <label class="btn btn-outline file-label">Choose image<input type="file" id="imageInput" accept="image/*"></label>
+            <label class="btn btn-outline file-label camera-label">📷 Take photo<input type="file" id="cameraInput" accept="image/*" capture="environment"></label>
+            <div class="preview-wrap hidden" id="previewWrap"><img id="imagePreview" alt="Waste photo preview"><button id="removeImage" class="remove-image" type="button">Remove image</button></div>
+          </div>
+          <div class="ai-box">
+            <button class="btn btn-dark wide-btn" id="aiDetectBtn" type="button" disabled>✨ Detect category with AI</button>
+            <p class="ai-status" id="aiStatus" role="status" aria-live="polite">Upload a photo first, then tap detect.</p>
+            <details class="ai-settings" id="aiSettings">
+              <summary>AI settings (Gemini API key)</summary>
+              <p>Get a free key from Google AI Studio. The key is saved only in this browser and sent only to Google. For a public launch, move this call to a backend so the key stays secret.</p>
+              <div class="ai-key-row"><input type="password" id="geminiKey" placeholder="Paste Gemini API key" autocomplete="off"><button class="btn btn-outline btn-small" id="saveKeyBtn" type="button">Save key</button><button class="btn btn-outline btn-small" id="clearKeyBtn" type="button">Remove</button></div>
+            </details>
+          </div>
+          <div class="form-grid">
+            <label>Waste category<select id="wasteCategory"><option value="Organic">Organic / Food</option><option value="Plastic">Plastic</option><option value="Paper">Paper / Cardboard</option><option value="Metal">Metal</option><option value="E-waste">E-waste / Battery</option><option value="Other">Other / Mixed</option></select></label>
+            <label id="plasticFormField" class="hidden">Plastic type<select id="plasticForm"><option value="rigid">Rigid (bottles, jugs, boxes, caps)</option><option value="film">Thin film (carry bags, sheets)</option><option value="multilayer">Multilayer (chips packets, foil pouches)</option></select></label>
+            <label>Weight (kg)<input type="number" id="wasteWeight" min="0.01" max="10000" step="0.01" value="0.5" required></label>
+            <label class="full-field">Short description<input type="text" id="wasteDescription" maxlength="80" placeholder="e.g. empty water bottle"></label>
+          </div>
+          <button class="btn btn-primary wide-btn" id="analyzeBtn">Analyze & save entry <span>→</span></button>
+          <p class="form-hint">AI detection only suggests a category from your photo. Check it and edit if needed before saving. Energy and value figures remain indicative estimates.</p>
+        </article>
+        <article class="panel result-panel">
+          <div class="panel-heading"><div><h3>Analysis result</h3><p>Result appears after you save an entry</p></div><span class="status-dot"></span></div>
+          <div class="empty-result" id="emptyResult"><div class="result-illustration">♻</div><h3>Ready when you are</h3><p>Upload a photo, choose a category, then analyze your item.</p></div>
+          <div class="result-content hidden" id="resultContent">
+            <div class="result-category"><span id="resultEmoji">🍃</span><div><small>DETECTED CATEGORY</small><h3 id="resultCategory">Organic</h3><p id="resultDescription">Food scraps</p></div></div>
+            <div class="result-metrics"><div><small>Weight</small><b id="resultWeight">0.5 kg</b></div><div><small>Indicative energy</small><b id="resultEnergy">0.2 kWh</b></div></div>
+            <div class="earnings-card"><div><small>ESTIMATED SELLING VALUE</small><h3 id="resultMoney">₹ 9.00</h3><p id="resultRate">Demo rate: ₹18/kg</p></div><span class="earnings-icon">₹</span></div>
+            <p class="price-disclaimer">Indicative market estimate only—not a live buyer quote or guaranteed payment. Public market listings last checked 9 Oct 2026. Actual price depends on material grade, cleanliness, quantity and pickup costs. Confirm the current rate directly with the recycler.</p>
+            <div class="rate-source-links"><b>Check current market listings (Panipat)</b><p><a href="https://scraprates.in/panipat/plastic-scrap-price" target="_blank" rel="noopener">Plastic rate & buyer listings ↗</a></p><p><a href="https://scraprates.in/panipat" target="_blank" rel="noopener">Other scrap rates (cardboard, iron, etc.) ↗</a></p><small>Rates are snapshots entered in this prototype; they do not automatically refresh. Open the links for the latest listing, then call a buyer for an actual offer.</small></div>
+            <div class="advice-box"><b>Recommended next step</b><p id="resultAdvice">Keep organic waste separate for composting or check local biogas collection options.</p></div>
+            <div class="success-message">✓ Entry saved to My Waste and dashboard totals.</div>
+            <button class="btn btn-outline wide-btn" data-go="waste">View my waste log →</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="page" id="page-waste">
+      <div class="section-intro row-between"><div><span class="eyebrow green-text">YOUR RECORDS</span><h2>My waste</h2><p>Review and manage the items recorded in this browser.</p></div><button class="btn btn-primary" data-go="scan">+ Add waste</button></div>
+      <article class="panel table-panel"><div class="table-toolbar"><div><h3>Waste log</h3><p id="tableCount">4 entries</p></div><button class="btn btn-outline btn-small" id="resetDemo">Reset sample data</button></div>
+        <div class="table-scroll"><table><thead><tr><th>Item</th><th>Category</th><th>Weight</th><th>Energy estimate</th><th>Disposal route</th><th></th></tr></thead><tbody id="wasteTable"></tbody></table></div>
+        <p class="form-hint">Entries are stored locally in this browser using localStorage. No account or cloud database is connected.</p>
+      </article>
+    </section>
+
+    <section class="page" id="page-impact">
+      <div class="section-intro"><span class="eyebrow green-text">MEASURE THE DIFFERENCE</span><h2>Energy & impact</h2><p>Explore indicative estimates based on the waste you log.</p></div>
+      <div class="impact-stats stat-grid">
+        <article class="stat-card"><div class="stat-icon icon-yellow">ϟ</div><div><span>Energy potential</span><strong id="impactEnergy">8.4 kWh</strong><small>Modelled estimate</small></div></article>
+        <article class="stat-card"><div class="stat-icon icon-green">♻</div><div><span>Waste tracked</span><strong id="impactWaste">12.5 kg</strong><small>All categories</small></div></article>
+        <article class="stat-card"><div class="stat-icon icon-mint">₹</div><div><span>Potential material value</span><strong id="impactValue">₹ 320</strong><small>Illustrative only</small></div></article>
+      </div>
+      <article class="panel chart-panel"><div class="panel-heading"><div><h3>Weight by category</h3><p>Updates when you add or delete entries</p></div><span class="tiny-tag">KG</span></div><div id="barChart" class="bar-chart"></div></article>
+      <article class="panel methodology"><h3>How estimates work</h3><p>For this prototype, each category uses a simple illustrative coefficient to demonstrate how the interface could calculate potential energy. Real-world energy recovery depends on material quality, collection method, local processing technology, and conversion efficiency. The values should be replaced with verified local data before deployment.</p></article>
+    </section>
+
+    <section class="page" id="page-route">
+      <div class="section-intro"><span class="eyebrow green-text">COLLECT SMARTER</span><h2>Collection route</h2><p>A concept view for prioritising bins and reducing unnecessary collection trips.</p></div>
+      <div class="route-layout">
+        <article class="panel route-map-panel"><div class="panel-heading"><div><h3>Campus collection map</h3><p>Illustrative locations — not live GPS</p></div><span class="tiny-tag">CONCEPT</span></div>
+          <div class="real-map-wrap"><iframe title="OpenStreetMap map of recycling locations in Panipat" class="real-map" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=76.88%2C29.34%2C77.02%2C29.45&layer=mapnik&marker=29.3909%2C76.9635" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+          <div class="map-legend"><span>🗺️ Real OpenStreetMap map</span><a href="https://www.openstreetmap.org/?mlat=29.3909&mlon=76.9635#map=13/29.3909/76.9635" target="_blank" rel="noopener">Open larger map ↗</a></div>
+          <p class="map-note">Map shows the Panipat area. Open a recycler's map link below to view directions to that specific business. The map is not a live collection route or live bin tracker.</p>
+        </article>
+        <article class="panel route-side"><h3>Bin status</h3><p class="muted">Example campus data</p><div class="bin-row"><span class="bin-emoji">🗑️</span><div><b>Block A — Dry waste</b><small>Needs collection</small><div class="progress"><i style="width:92%"></i></div></div><strong>92%</strong></div><div class="bin-row"><span class="bin-emoji">🍃</span><div><b>Canteen — Organic</b><small>Partially full</small><div class="progress yellow-progress"><i style="width:65%"></i></div></div><strong>65%</strong></div><div class="bin-row"><span class="bin-emoji">♻️</span><div><b>Library — Paper</b><small>Available</small><div class="progress green-progress"><i style="width:28%"></i></div></div><strong>28%</strong></div><div class="route-summary"><b>Suggested action</b><p>Prioritise Block A first, then check the canteen bin. Confirm bin status with campus staff before dispatch.</p></div></article>
+      </div>
+      <article class="panel recycler-panel">
+        <div class="panel-heading"><div><h3>Nearby recycling & scrap contacts</h3><p>Publicly listed businesses in Panipat, Haryana. Call first to confirm plastic types accepted, current buying rates, minimum quantity and pickup.</p></div><span class="tiny-tag">LOCAL DIRECTORY</span></div>
+        <div class="recycler-grid">
+          <article class="recycler-card"><span class="recycler-type">PLASTIC RECYCLING</span><h4>Aadinath Ecotex</h4><p>Kewat No. 231, Village Garh Sarnai, Panipat, Haryana 132103</p><p><b>Phone:</b> <a href="tel:+919034934011">+91 90349 34011</a></p><p><b>Email:</b> <a href="mailto:info@aadinathecotex.com">info@aadinathecotex.com</a></p><div class="recycler-actions"><a class="btn btn-primary btn-small" href="https://aadinathecotex.com/" target="_blank" rel="noopener">Official website ↗</a><a class="btn btn-outline btn-small" href="https://www.google.com/maps/search/?api=1&query=Aadinath+Ecotex+Panipat" target="_blank" rel="noopener">Map & directions ↗</a></div><small class="contact-note">Ask whether they buy household plastic directly or accept bulk/industrial material only.</small></article>
+          <article class="recycler-card"><span class="recycler-type">RECYCLING / WASTE MANAGEMENT</span><h4>Adinath Recyclo Tronix Pvt. Ltd. (Artronix)</h4><p>Plot #361, Industrial Estate, HSIIDC, Refinery Road, Panipat 132103</p><p><b>Phone:</b> <a href="tel:+919034933682">+91 90349 33682</a></p><p><b>Email:</b> <a href="mailto:info@artronix.in">info@artronix.in</a></p><div class="recycler-actions"><a class="btn btn-primary btn-small" href="https://www.artronix.in/contact-us/" target="_blank" rel="noopener">Official contact ↗</a><a class="btn btn-outline btn-small" href="https://www.google.com/maps/search/?api=1&query=Adinath+Recyclo+Tronix+Panipat" target="_blank" rel="noopener">Map & directions ↗</a></div><small class="contact-note">Contact to confirm the exact plastic categories and whether they purchase from individuals.</small></article>
+          <article class="recycler-card"><span class="recycler-type">PLASTIC WASTE RECYCLER</span><h4>Exigo Recycling Pvt. Ltd.</h4><p>Opposite Kirpal Ashram, Main Barsat Road, Noorwala, Panipat, Haryana 132103</p><p><b>Phone:</b> <a href="tel:+919599218908">+91 95992 18908</a></p><p><b>Email:</b> <a href="mailto:info@exigorecycling.com">info@exigorecycling.com</a></p><div class="recycler-actions"><a class="btn btn-outline btn-small" href="https://www.google.com/maps/search/?api=1&query=Exigo+Recycling+Opposite+Kirpal+Ashram+Panipat" target="_blank" rel="noopener">Map & directions ↗</a><a class="btn btn-outline btn-small" href="https://hspcb.gov.in/page/plastic-waste-mgt" target="_blank" rel="noopener">HSPCB information ↗</a></div><small class="contact-note">Listed by Haryana's pollution-control records as a plastic-waste recycling facility; call to confirm current operations and buying terms.</small></article>
+        </div>
+        <p class="directory-warning"><b>Before selling:</b> send a photo and ask for accepted resin types (PET/HDPE/PP etc.), minimum quantity, rate per kg, collection charges and payment method. Do not assume a recycler buys small household quantities. If you are under 18, involve a parent/guardian for visits, transport and payments.</p>
+      </article>
+      <p class="disclaimer">Map tiles come from OpenStreetMap. Contact details are from public business/official pages and can change. Verify details before visiting. Bin fill levels above are still sample data; no live sensors, GPS route optimisation or dispatch is connected.</p>
+    </section>
+
+    <section class="page" id="page-marketplace">
+      <div class="section-intro"><span class="eyebrow green-text">SELL • RECYCLE • EARN</span><h2>Waste seller marketplace</h2><p>List sorted recyclable material, estimate its value, and let potential buyers contact you. This prototype saves listings in this browser only.</p></div>
+      <div class="marketplace-layout">
+        <article class="panel">
+          <div class="panel-heading"><div><h3>List your recyclable waste</h3><p>Use a reachable contact method; do not publish your home address.</p></div><span class="tiny-tag">SELLER</span></div>
+          <form id="listingForm" class="market-form">
+            <label>Material category<select id="listingCategory" required><option value="Plastic">Plastic</option><option value="Paper">Paper / cardboard</option><option value="Metal">Metal (identify exact type in notes)</option></select></label>
+            <label id="listingPlasticField">Plastic type<select id="listingPlasticForm"><option value="rigid">Rigid (bottles, jugs, boxes, caps)</option><option value="film">Thin film (carry bags, sheets)</option><option value="multilayer">Multilayer (chips packets, foil pouches)</option></select></label>
+            <div class="form-grid"><label>Weight (kg)<input id="listingWeight" type="number" min="0.1" max="10000" step="0.1" required placeholder="e.g. 5"></label><label>Condition<select id="listingCondition"><option>Clean and sorted</option><option>Mixed / needs sorting</option><option>Compressed / bulk</option></select></label></div>
+            <label>Material details<textarea id="listingDetails" rows="3" maxlength="240" placeholder="e.g. PET bottles, dry, caps removed; pickup area (neighbourhood only)"></textarea></label>
+            <label>Contact email or phone<input id="listingContact" maxlength="100" required placeholder="Email or phone number"></label>
+            <button class="btn btn-primary" type="submit">Publish listing</button>
+            <small class="contact-note">Demo only: listings are stored in your browser, not shared online with real buyers. Avoid posting sensitive personal details.</small>
+          </form>
+        </article>
+        <article class="panel marketplace-summary"><h3>How seller earnings are estimated</h3><p>Estimated value = weight × indicative reference rate. Buyer rates vary by material grade, cleanliness, quantity and pickup cost.</p><div class="market-rate-row"><span>Plastic reference</span><b>₹14.15/kg</b></div><div class="market-rate-row"><span>Paper/cardboard reference</span><b>₹7.35/kg</b></div><div class="market-rate-row"><span>Iron scrap reference only</span><b>₹36.65/kg</b></div><p class="price-disclaimer">Illustrative market snapshots, not live buyer offers or guaranteed payment. Confirm the exact material and current price directly with a recycler.</p><a class="btn btn-outline btn-small" href="https://scraprates.in/panipat" target="_blank" rel="noopener">Check public rate listings ↗</a></article>
+      </div>
+      <div class="panel marketplace-list-panel"><div class="panel-heading"><div><h3>Compare indicative buyer offers</h3><p>Illustrative offers for demo only—not real quotes.</p></div><span class="tiny-tag">PRICE CHECK</span></div><div id="offerComparison" class="marketplace-listings"></div><p class="price-disclaimer">Compare like-for-like material grade, pickup charges, minimum quantity and payment terms before accepting an offer.</p></div>
+      <div class="panel marketplace-list-panel"><div class="panel-heading"><div><h3>Marketplace listings</h3><p>Listings saved on this device</p></div><span class="tiny-tag" id="listingCount">0 LISTINGS</span></div><div id="marketplaceListings" class="marketplace-listings"><div class="empty-market">No seller listings yet. Add your first listing using the form.</div></div></div>
+      <div class="panel marketplace-list-panel"><div class="panel-heading"><div><h3>Transaction receipt generator</h3><p>Create a demo record after agreeing on weight and rate.</p></div><span class="tiny-tag">DEMO RECEIPT</span></div><form id="receiptForm" class="market-form"><div class="form-grid"><label>Material<select id="receiptMaterial"><option>Plastic</option><option>Paper</option><option>Metal</option></select></label><label>Actual weight (kg)<input id="receiptWeight" type="number" min="0.1" step="0.1" required></label><label>Agreed rate (₹/kg)<input id="receiptRate" type="number" min="0" step="0.01" required></label><label>Buyer / recycler name<input id="receiptBuyer" maxlength="100" required></label></div><button class="btn btn-primary" type="submit">Generate receipt</button></form><div id="receiptOutput" class="hidden"></div></div>
+      <p class="directory-warning"><b>Safety & status:</b> this is a local prototype, not a live marketplace. It does not send listings to recyclers, verify buyers, arrange transport or process payments. Confirm buyer identity and final weight/rate; involve a trusted adult for in-person exchanges if you are under 18.</p>
+    </section>
+
+    <section class="page" id="page-ewaste">
+      <div class="section-intro"><span class="eyebrow green-text">DISPOSE RESPONSIBLY</span><h2>E-waste & recycling guide</h2><p>Choose the right next step for common waste types.</p></div>
+      <div class="guide-grid">
+        <article class="guide-card"><div class="guide-icon">🍌</div><span class="guide-label">ORGANIC</span><h3>Food & garden waste</h3><p>Keep food scraps separate from plastic and other dry waste. Use a composting or authorised organic-waste service if available.</p><div class="guide-action">Best route <b>Compost / local biogas</b></div></article>
+        <article class="guide-card"><div class="guide-icon">🧴</div><span class="guide-label">PLASTIC</span><h3>Bottles & packaging</h3><p>Empty and rinse containers when appropriate. Follow local recycling rules because accepted plastic types vary by facility.</p><div class="guide-action">Best route <b>Accepted recycling stream</b></div></article>
+        <article class="guide-card"><div class="guide-icon">📄</div><span class="guide-label">PAPER</span><h3>Paper & cardboard</h3><p>Keep dry and separate from food residue. Flatten boxes to reduce storage and transport volume.</p><div class="guide-action">Best route <b>Paper recycling</b></div></article>
+        <article class="guide-card"><div class="guide-icon">🥫</div><span class="guide-label">METAL</span><h3>Cans & scrap metal</h3><p>Separate clean metal items and use an appropriate scrap dealer or recycling collection point.</p><div class="guide-action">Best route <b>Metal recycler</b></div></article>
+        <article class="guide-card warning-card"><div class="guide-icon">🔋</div><span class="guide-label">SPECIAL HANDLING</span><h3>Batteries & electronics</h3><p>Do not place batteries or electronics in ordinary mixed waste. Avoid dismantling batteries; use an authorised e-waste collection point or take-back programme.</p><div class="guide-action">Best route <b>Authorised e-waste handler</b></div></article>
+        <article class="guide-card"><div class="guide-icon">🧺</div><span class="guide-label">MIXED</span><h3>Uncertain materials</h3><p>If you're unsure what an item is made from, keep it separate until you can check local disposal guidance.</p><div class="guide-action">Best route <b>Check local guidance</b></div></article>
+      </div>
+    </section>
+
+    <footer class="app-footer"><span>Waste2Power • Hackathon prototype</span><span>Build small. Measure impact. Improve locally.</span></footer>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
